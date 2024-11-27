@@ -1,5 +1,6 @@
-pipeline {
+
 agent any
+pipeline {
 environment {
 DB_URL = 'mysql+pymysql://usr:pwd@host:<port>/db'
 DISABLE_AUTH = true

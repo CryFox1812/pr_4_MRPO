@@ -6,7 +6,7 @@ DISABLE_AUTH = true
 GOOGLE_ACCESS_KEY_ID = credentials('google-access-key-id')
 }
 stages {
-stage(«Сборка») {
+stage("Сборка") {
 steps {
 echo «Сборка приложения...»
 sh '''

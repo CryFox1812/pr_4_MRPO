@@ -1,35 +1,4 @@
 
-agent any
-pipeline {
-environment {
-DB_URL = 'mysql+pymysql://usr:pwd@host:<port>/db'
-DISABLE_AUTH = true
-GOOGLE_ACCESS_KEY_ID = credentials('google-access-key-id')
-}
-stages {
-stage(«Сборка») {
-steps {
-echo «Сборка приложения...»
-sh '''
-echo «Этот блок содержит многострочные шаги»
-ls -lh
-'''
-sh '''
-echo «URL базы данных: ${DB_URL}»
-echo «DISABLE_AUTH: ${DISABLE_AUTH}»
-env
-'''
-echo «Запуск задачи с номером сборки: ${env.BUILD_NUMBER} на ${env.JENKINS_URL}»
-}
-}
-stage(«Тестирование») {
-steps {
-echo «Тестирование приложения...»
-}
-}
-stage(«Деплой на стейджинг») {
-steps {
-echo «Проверка наличия команд»
 sh 'which chmod || echo «chmod not found»'
   sh 'which ./deploy staging || echo «./deploy not found»'
 sh 'which ./smoke-tests || echo «./smoke-tests not found»'
@@ -60,6 +29,37 @@ echo «Это всегда будет выполняться независим�
 }
 }
 }
+echo «Сборка приложения...»
+sh '''
+echo «Этот блок содержит многострочные шаги»
+ls -lh
+'''
+sh '''
+echo «URL базы данных: ${DB_URL}»
+echo «DISABLE_AUTH: ${DISABLE_AUTH}»
+env
+'''
+echo «Запуск задачи с номером сборки: ${env.BUILD_NUMBER} на ${env.JENKINS_URL}»
+}
+}
+stage(«Тестирование») {
+steps {
+echo «Тестирование приложения...»
+}
+}
+stage(«Деплой на стейджинг») {
+steps {
+echo «Проверка наличия команд»
+agent any
+pipeline {
+environment {
+DB_URL = 'mysql+pymysql://usr:pwd@host:<port>/db'
+DISABLE_AUTH = true
+GOOGLE_ACCESS_KEY_ID = credentials('google-access-key-id')
+}
+stages {
+stage(«Сборка») {
+steps {
 cleanup {
 script {
 node {
